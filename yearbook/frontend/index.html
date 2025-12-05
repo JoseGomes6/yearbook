@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yearbook SPA</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+      }
+
+      .app-wrapper {
+        display: flex;
+        justify-content: flex-start; /* à esquerda */
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 20px; /* distância da borda esquerda e topo */
+      }
+
+      .container {
+        background: #273648;
+        width: 33%; /* ocupa 33% da largura da tela */
+        min-width: 250px; /* largura mínima para mobile */
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+        margin: 0; /* remove centralização automática */
+      }
+
+      h1 {
+        color: #f0f0f0;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      h4 {
+        color: #f0f0f0;
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+
+      input::placeholder {
+        font-size: 14px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #a6d7e2;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #39616a;
+      }
+
+      .link-text {
+        color: #555;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .link-text:hover {
+        color: #000;
+      }
+
+      p {
+        font-size: 14px;
+        margin: 5px 0;
+      }
+
+      #students-list p {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+        margin: 0;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 350px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .close {
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          width: 80%; /* ocupa mais em telas pequenas */
+          margin-top: 20px;
+        }
+        input,
+        button {
+          font-size: 14px;
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-wrapper">
+      <!-- Login visível -->
+      <div class="container" id="login-container">
+        <h1>Login</h1>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <p style="text-align: left">
+          <span class="link-text" onclick="showForgotModal()"
+            >Forgot Password?</span
+          >
+        </p>
+        <button onclick="login()">Sign In</button>
+        <p style="text-align: left; margin-top: 10px">
+          Don't have an account?
+          <span class="link-text" onclick="showRegister()">Create Account</span>
+        </p>
+      </div>
+
+      <!-- Register invisível -->
+      <div class="container" id="register-container" style="display: none">
+        <h1>Create Account</h1>
+        <h4 style="font-weight: normal">
+          Please enter your email address you´d like your password reset
+          information sent to
+        </h4>
+        <input type="text" id="reg-username" placeholder="Username" />
+        <input type="email" id="reg-email" placeholder="Email" />
+        <input type="password" id="reg-password" placeholder="Password" />
+        <input
+          type="password"
+          id="reg-confirm-password"
+          placeholder="Confirm Password"
+        />
+        <button onclick="register()">Get Started</button>
+        <p style="text-align: left; margin-top: 10px">
+          Already have an account?
+          <span class="link-text" onclick="showLogin()">Sign In</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Yearbook -->
+    <div class="container" id="yearbook-container" style="display: none">
+      <h2>Bem-vindo ao Yearbook!</h2>
+      <div id="students-list">Carregando alunos...</div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" onclick="closeForgotModal()">&times;</span>
+        <h1>Forgot password?</h1>
+        <h5 style="font-weight: normal">
+          Please enter your email address you´d like your password reset
+          information sent to
+        </h5>
+
+        <input type="email" id="forgot-email" placeholder="Email" />
+        <button onclick="sendForgotPassword()">Send email</button>
+      </div>
+    </div>
+
+    <script>
+      // SPA Functions
+      function showRegister() {
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("register-container").style.display = "block";
+      }
+
+      function showLogin() {
+        document.getElementById("register-container").style.display = "none";
+        document.getElementById("login-container").style.display = "block";
+      }
+
+      function login() {
+        const user = document.getElementById("username").value;
+        const pass = document.getElementById("password").value;
+        if (!user || !pass) {
+          alert("Preenche todos os campos!");
+          return;
+        }
+        fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: user, password: pass }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              document.getElementById("login-container").style.display = "none";
+              document.getElementById("yearbook-container").style.display =
+                "block";
+              loadYearbook();
+            } else {
+              alert("Login inválido!");
+            }
+          })
+          .catch((err) => console.error(err));
+      }
+
+      function register() {
+        const username = document.getElementById("reg-username").value;
+        const email = document.getElementById("reg-email").value;
+        const password = document.getElementById("reg-password").value;
+        const confirm = document.getElementById("reg-confirm-password").value;
+        if (!username || !email || !password || !confirm) {
+          alert("Preenche todos os campos!");
+          return;
+        }
+        if (password !== confirm) {
+          alert("As passwords não coincidem!");
+          return;
+        }
+        fetch("http://localhost:3000/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, email, password }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              alert("Registo bem-sucedido!");
+              showLogin();
+            } else {
+              alert("Erro no registo: " + data.message);
+            }
+          })
+          .catch((err) => console.error(err));
+      }
+
+      function loadYearbook() {
+        const listDiv = document.getElementById("students-list");
+        const students = [
+          { name: "Maria", course: "Design" },
+          { name: "João", course: "Comunicação" },
+          { name: "Pedro", course: "Informática" },
+        ];
+        listDiv.innerHTML = students
+          .map((s) => `<p>${s.name} - ${s.course}</p>`)
+          .join("");
+      }
+
+      // Forgot Password Modal
+      function showForgotModal() {
+        document.getElementById("forgot-modal").style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+      function closeForgotModal() {
+        document.getElementById("forgot-modal").style.display = "none";
+        document.body.style.overflow = "auto";
+      }
+      function sendForgotPassword() {
+        const email = document.getElementById("forgot-email").value;
+        if (!email) {
+          alert("Please, enter your email.");
+          return;
+        }
+        alert(
+          "If the email exists, you will receive instructions to reset your password."
+        );
+        closeForgotModal();
+      }
+    </script>
+  </body>
+</html>
