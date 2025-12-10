@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,34 +16,29 @@
 
       .app-wrapper {
         display: flex;
-        justify-content: flex-start; /* à esquerda */
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
         height: 100%;
         box-sizing: border-box;
-        padding: 20px; /* distância da borda esquerda e topo */
+        padding: 20px;
       }
 
       .container {
         background: #273648;
-        width: 33%; /* ocupa 33% da largura da tela */
-        min-width: 250px; /* largura mínima para mobile */
+        width: 33%;
+        min-width: 250px;
         padding: 25px;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
-        margin: 0; /* remove centralização automática */
-      }
-
-      h1 {
+        margin: 0;
         color: #f0f0f0;
-        text-align: left;
-        margin-bottom: 20px;
       }
 
+      h1,
+      h2,
       h4 {
-        color: #f0f0f0;
-        text-align: left;
         margin-bottom: 20px;
       }
 
@@ -55,10 +50,6 @@
         border: 1px solid #ccc;
         font-size: 16px;
         box-sizing: border-box;
-      }
-
-      input::placeholder {
-        font-size: 14px;
       }
 
       button {
@@ -99,7 +90,7 @@
 
       /* Modal */
       .modal {
-        display: none;
+        display: none; /* hide initially */
         position: fixed;
         z-index: 1000;
         left: 0;
@@ -108,7 +99,6 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(5px);
-        display: flex;
         justify-content: center;
         align-items: center;
       }
@@ -120,7 +110,54 @@
         width: 90%;
         max-width: 350px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        color: black;
       }
+
+      #getstarted-container {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #273648; /* full background color */
+      }
+
+      /* Main content area inside get started */
+      .getstarted-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        padding-top: 30px;
+        width: 100%;
+      }
+
+      .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #ddd;
+    font-weight: bold;
+  }
+  .tab-btn.active {
+    border-bottom: 2px solid #a6d7e2;
+    color: white;
+  }
+  input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
 
       .close {
         float: right;
@@ -130,7 +167,7 @@
 
       @media (max-width: 768px) {
         .container {
-          width: 80%; /* ocupa mais em telas pequenas */
+          width: 80%;
           margin-top: 20px;
         }
         input,
@@ -143,7 +180,7 @@
   </head>
   <body>
     <div class="app-wrapper">
-      <!-- Login visível -->
+      <!-- Login -->
       <div class="container" id="login-container">
         <h1>Login</h1>
         <input type="text" id="username" placeholder="Username" />
@@ -160,13 +197,10 @@
         </p>
       </div>
 
-      <!-- Register invisível -->
+      <!-- Register -->
       <div class="container" id="register-container" style="display: none">
         <h1>Create Account</h1>
-        <h4 style="font-weight: normal">
-          Please enter your email address you´d like your password reset
-          information sent to
-        </h4>
+        <h4>Fill in your details to get started.</h4>
         <input type="text" id="reg-username" placeholder="Username" />
         <input type="email" id="reg-email" placeholder="Email" />
         <input type="password" id="reg-password" placeholder="Password" />
@@ -175,109 +209,336 @@
           id="reg-confirm-password"
           placeholder="Confirm Password"
         />
-        <button onclick="register()">Get Started</button>
+        <button onclick="showGetStarted()">Get Started</button>
         <p style="text-align: left; margin-top: 10px">
           Already have an account?
           <span class="link-text" onclick="showLogin()">Sign In</span>
         </p>
       </div>
+
+      <!-- GET STARTED PAGE -->
+      <div class="getstarted-main">
+        <div
+          id="getstarted-container"
+          style="
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            flex-direction: column;
+            overflow: hidden;
+          "
+        >
+          <!-- Top Bar -->
+          <div
+            class="top-bar"
+            style="
+              width: 100%;
+              padding: 15px 20px;
+              background: #1f2a38;
+              color: white;
+              font-size: 20px;
+              font-weight: bold;
+              text-align: left;
+            "
+          >
+            My Yearbook
+          </div>
+
+          <!-- Main Content Area -->
+          <div
+            style="
+              flex: 1;
+              background: #273648;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              position: relative;
+              padding: 30px 0 0 0;
+              overflow-y: auto;
+            "
+          >
+            <!-- Title & Subtitle -->
+            <div style="width: 90%; max-width: 900px; margin-bottom: 40px">
+              <h1 style="color: #f0f0f0; margin: 0">
+                WELCOME TO YOUR YEARBOOK!
+              </h1>
+              <h4
+                style="color: #d0d0d0; font-weight: normal; margin: 10px 0 0 0"
+              >
+                Let’s complete your profile so others can get to know you.
+              </h4>
+            </div>
+            <!-- Cover Photo Rectangle -->
+            <div
+              style="
+                position: relative;
+                width: 100%;
+                max-width: 900px;
+                height: 200px;
+                background: #3a4a5a;
+                border-radius: 12px;
+                margin-bottom: 70px; /* enough space for profile circle */
+              "
+            >
+              <span
+                style="
+                  color: #ddd;
+                  font-weight: bold;
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                "
+                >Cover Photo</span
+              >
+
+              <!-- Profile Photo Circle -->
+              <div
+                style="
+                  position: absolute;
+                  left: 0;
+                  bottom: -60px; /* half of circle height to align center with bottom of cover photo */
+                  width: 120px;
+                  height: 120px;
+                  background: #555;
+                  border-radius: 50%;
+                  border: 4px solid white;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: #ddd;
+                  font-weight: bold;
+                  font-size: 14px;
+                "
+              >
+                Profile
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <!-- Buttons under the cover/photo -->
+<div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+  <button class="tab-btn active" onclick="showTab('personal')">Personal Information</button>
+  <button class="tab-btn" onclick="showTab('class')">Class/Year</button>
+  <button class="tab-btn" onclick="showTab('quote')">Achievements</button>
+  <button class="tab-btn" onclick="showTab('address')">Quote</button>
+</div>
+
+<!-- Tab content area -->
+<div id="tab-content" style="width: 80%; max-width: 800px; display: flex; flex-wrap: wrap; gap: 20px;">
+  <!-- Personal Information Fields (default shown) -->
+  <div class="tab personal" style="display: flex; flex-wrap: wrap; width: 100%; gap: 20px;">
+    <!-- Left column -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+      <input type="text" placeholder="First Name (e.g., John)" />
+      <input type="text" placeholder="Last Name (e.g., Doe)" />
+      <input type="email" placeholder="Email Address (e.g., john@example.com)" />
+      <input type="text" placeholder="Phone Number (e.g., +1 123 456 7890)" />
+    </div>
+    <!-- Right column -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+      <input type="text" placeholder="Date of Birth (dd/mm/yyyy)" />
+      <input type="text" placeholder="Hometown (e.g., New York)" />
+      <input type="text" placeholder="City (e.g., New York)" />
+      <input type="text" placeholder="Address (e.g., 123 Main St)" />
+    </div>
+  </div>
+
+  <!-- Placeholder for other tabs -->
+  <!-- Class/Year Fields -->
+<div class="tab class" style="display: none; flex-wrap: wrap; width: 100%; gap: 20px;">
+  <!-- Left column -->
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+    <input type="text" placeholder="School/University (e.g., Harvard University)" />
+    <input type="text" placeholder="Year/Graduation (e.g., 2025)" />
+  </div>
+  <!-- Right column -->
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+    <input type="text" placeholder="Course/Program (e.g., Computer Science)" />
+    <input type="text" placeholder="Section/Group (e.g., Group A)" />
+  </div>
+</div>
+
+  <div id="tab-achievements" class="tab" style="display: none; flex-direction: column; align-items: center; gap: 20px;">
+    <div 
+      id="add-achievement-btn"
+      style="
+        width: 250px;
+        height: 120px;
+        border-radius: 12px;
+        background: #3a4a5a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 48px;
+        color: #ddd;
+        font-weight: bold;
+      "
+      onclick="openAchievementModal()"
+    >
+      +
     </div>
 
-    <!-- Yearbook -->
-    <div class="container" id="yearbook-container" style="display: none">
-      <h2>Bem-vindo ao Yearbook!</h2>
-      <div id="students-list">Carregando alunos...</div>
+    <div id="achievements-list" style="width: 90%; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;"></div>
+  </div>
+</div>
+
+<!-- Achievement Modal -->
+<div id="achievement-modal" class="modal">
+  <div class="modal-content" style="display: flex; flex-direction: column; gap: 15px;">
+    <span class="close" onclick="closeAchievementModal()">&times;</span>
+    <h2>Add Achievement</h2>
+    <input type="text" id="ach-title" placeholder="Title (e.g., Best Project Award)" />
+    <input type="file" id="ach-photo" accept="image/*" />
+    <textarea id="ach-desc" placeholder="Short description..." style="resize: none; height: 80px;"></textarea>
+    <button onclick="saveAchievement()">Save</button>
+  </div>
+</div>
+
+  <!-- Achievements List -->
+  <div id="achievements-list" style="width: 90%; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;"></div>
+</div>
+  <div class="tab address" style="display: none;">Address Content Here</div>
+</div>
+
+      <!-- Yearbook -->
+      <div class="container" id="yearbook-container" style="display: none">
+        <h2>Welcome to the Yearbook!</h2>
+        <div id="students-list">Loading students...</div>
+      </div>
     </div>
 
     <!-- Forgot Password Modal -->
-    <div id="forgot-modal" class="modal" style="display: none">
+    <div id="forgot-modal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeForgotModal()">&times;</span>
         <h1>Forgot password?</h1>
-        <h5 style="font-weight: normal">
-          Please enter your email address you´d like your password reset
-          information sent to
-        </h5>
-
         <input type="email" id="forgot-email" placeholder="Email" />
-        <button onclick="sendForgotPassword()">Send email</button>
+        <button onclick="sendForgotPassword()">Send Email</button>
       </div>
     </div>
 
     <script>
-      // SPA Functions
+      // SPA Navigation
+      function showLogin() {
+        document.getElementById("login-container").style.display = "block";
+        document.getElementById("register-container").style.display = "none";
+        document.getElementById("getstarted-container").style.display = "none";
+        document.getElementById("yearbook-container").style.display = "none";
+      }
+
       function showRegister() {
         document.getElementById("login-container").style.display = "none";
         document.getElementById("register-container").style.display = "block";
+        document.getElementById("getstarted-container").style.display = "none";
+        document.getElementById("yearbook-container").style.display = "none";
       }
 
-      function showLogin() {
+      function showGetStarted() {
+        document.getElementById("login-container").style.display = "none";
         document.getElementById("register-container").style.display = "none";
-        document.getElementById("login-container").style.display = "block";
+        document.getElementById("getstarted-container").style.display = "block";
+        document.getElementById("yearbook-container").style.display = "none";
       }
 
+      function showYearbook() {
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("register-container").style.display = "none";
+        document.getElementById("getstarted-container").style.display = "none";
+        document.getElementById("yearbook-container").style.display = "block";
+        loadYearbook();
+      }
+
+      // Fake SPA actions (no backend yet)
       function login() {
-        const user = document.getElementById("username").value;
-        const pass = document.getElementById("password").value;
-        if (!user || !pass) {
-          alert("Preenche todos os campos!");
-          return;
-        }
-        fetch("http://localhost:3000/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: user, password: pass }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              document.getElementById("login-container").style.display = "none";
-              document.getElementById("yearbook-container").style.display =
-                "block";
-              loadYearbook();
-            } else {
-              alert("Login inválido!");
-            }
-          })
-          .catch((err) => console.error(err));
+        alert("Login simulated!"); // You can replace with backend later
+        showYearbook();
       }
 
-      function register() {
-        const username = document.getElementById("reg-username").value;
-        const email = document.getElementById("reg-email").value;
-        const password = document.getElementById("reg-password").value;
-        const confirm = document.getElementById("reg-confirm-password").value;
-        if (!username || !email || !password || !confirm) {
-          alert("Preenche todos os campos!");
+      function finishGetStarted() {
+        const fullname = document.getElementById("gs-fullname").value;
+        const course = document.getElementById("gs-course").value;
+        const year = document.getElementById("gs-year").value;
+
+        if (!fullname || !course || !year) {
+          alert("Please fill all fields!");
           return;
         }
-        if (password !== confirm) {
-          alert("As passwords não coincidem!");
-          return;
-        }
-        fetch("http://localhost:3000/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, email, password }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              alert("Registo bem-sucedido!");
-              showLogin();
-            } else {
-              alert("Erro no registo: " + data.message);
-            }
-          })
-          .catch((err) => console.error(err));
+
+        // Simulate saving profile
+        alert(`Profile saved!\n${fullname}, ${course}, ${year}`);
+        showYearbook();
       }
+
+  // Function to switch tabs
+  function showTab(tabName) {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => tab.style.display = 'none');
+
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(btn => btn.classList.remove('active'));
+
+    document.querySelector(`.tab.${tabName}`).style.display = 'flex';
+    document.querySelector(`.tab-btn[onclick="showTab('${tabName}')"]`).classList.add('active');
+  }
+
+  // Open & Close Modal
+  function openAchievementModal() {
+    document.getElementById("achievement-modal").style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeAchievementModal() {
+    document.getElementById("achievement-modal").style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+
+  // Save Achievement (simulate)
+  function saveAchievement() {
+    const title = document.getElementById("ach-title").value;
+    const desc = document.getElementById("ach-desc").value;
+    const photoInput = document.getElementById("ach-photo");
+    let photoText = photoInput.files.length ? photoInput.files[0].name : "No photo";
+
+    if (!title || !desc) {
+      alert("Please fill in all fields!");
+      return;
+    }
+
+    // Create a small card for the achievement
+    const achList = document.getElementById("achievements-list");
+    const card = document.createElement("div");
+    card.style.width = "200px";
+    card.style.height = "120px";
+    card.style.background = "#3a4a5a";
+    card.style.borderRadius = "12px";
+    card.style.padding = "10px";
+    card.style.color = "#ddd";
+    card.style.display = "flex";
+    card.style.flexDirection = "column";
+    card.style.justifyContent = "center";
+    card.style.alignItems = "center";
+    card.innerHTML = `<strong>${title}</strong><br>${photoText}<br>${desc}`;
+    achList.appendChild(card);
+
+    closeAchievementModal();
+
+    // Clear inputs
+    document.getElementById("ach-title").value = "";
+    document.getElementById("ach-desc").value = "";
+    photoInput.value = "";
+  }
 
       function loadYearbook() {
         const listDiv = document.getElementById("students-list");
         const students = [
           { name: "Maria", course: "Design" },
-          { name: "João", course: "Comunicação" },
-          { name: "Pedro", course: "Informática" },
+          { name: "John", course: "Communication" },
+          { name: "Peter", course: "Computer Science" },
         ];
         listDiv.innerHTML = students
           .map((s) => `<p>${s.name} - ${s.course}</p>`)
@@ -296,14 +557,15 @@
       function sendForgotPassword() {
         const email = document.getElementById("forgot-email").value;
         if (!email) {
-          alert("Please, enter your email.");
+          alert("Enter your email.");
           return;
         }
-        alert(
-          "If the email exists, you will receive instructions to reset your password."
-        );
+        alert(`If the email exists, instructions will be sent to: ${email}`);
         closeForgotModal();
       }
+
+      // Start SPA on login view
+      showLogin();
     </script>
   </body>
 </html>
